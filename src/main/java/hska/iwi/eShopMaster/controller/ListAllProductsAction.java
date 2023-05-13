@@ -1,15 +1,22 @@
 package hska.iwi.eShopMaster.controller;
 
-import hska.iwi.eShopMaster.model.businessLogic.manager.ProductManager;
-import hska.iwi.eShopMaster.model.businessLogic.manager.impl.ProductManagerImpl;
+//import hska.iwi.eShopMaster.model.businessLogic.manager.ProductManager;
+//import hska.iwi.eShopMaster.model.businessLogic.manager.impl.ProductManagerImpl;
 import hska.iwi.eShopMaster.model.database.dataobjects.Product;
 import hska.iwi.eShopMaster.model.database.dataobjects.User;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionType;
 
 public class ListAllProductsAction extends ActionSupport {
 
@@ -29,8 +36,25 @@ public class ListAllProductsAction extends ActionSupport {
 		
 		if(user != null){
 			System.out.println("list all products!");
-			ProductManager productManager = new ProductManagerImpl();
-			this.products = productManager.getProducts();
+			String apiUrl = "http://product-service:8082/getProducts";
+			URL url = new URL(apiUrl);
+
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+
+			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			String line;
+            StringBuilder response = new StringBuilder();
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+            reader.close();
+			ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(response.toString());
+            JsonNode productsNode = jsonNode.get("products");
+			CollectionType prodcol = objectMapper.getTypeFactory().constructCollectionType(List.class, Product.class);
+			List<Product> products = objectMapper.readValue(productsNode.toString(), prodcol);
+			this.products = products;
 			result = "success";
 		}
 		

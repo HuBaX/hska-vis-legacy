@@ -28,6 +28,32 @@ services:
         local_dev_net:
             aliases:
                 - web-shop-db-image
+  category-service:
+    image: category-service
+    ports:
+      - "8081:8081"
+    environment:
+      MYSQL_ADDRESS: "web-shop-db-image:3306"
+      MYSQL_USER: webshopuser
+      MYSQL_PASSWORD: 240b2c6d58ff2ce2f508b49f
+      MYSQL_DATABASE: webshop
+    networks:
+      local_dev_net:
+        aliases:
+          - category-service
+  product-service:
+    image: product-service
+    ports: 
+      - "8082:8082"
+    environment:
+      MYSQL_ADDRESS: "web-shop-db-image:3306"
+      MYSQL_USER: webshopuser
+      MYSQL_PASSWORD: 240b2c6d58ff2ce2f508b49f
+      MYSQL_DATABASE: webshop
+    networks:
+      local_dev_net:
+        aliases:
+          - product-service
 
 networks:
   local_dev_net:
