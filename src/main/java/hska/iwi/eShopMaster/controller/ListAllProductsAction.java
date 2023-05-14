@@ -1,5 +1,7 @@
 package hska.iwi.eShopMaster.controller;
 
+import hska.iwi.eShopMaster.model.businessLogic.manager.ProductManager;
+import hska.iwi.eShopMaster.model.businessLogic.manager.impl.ProductManagerImpl;
 //import hska.iwi.eShopMaster.model.businessLogic.manager.ProductManager;
 //import hska.iwi.eShopMaster.model.businessLogic.manager.impl.ProductManagerImpl;
 import hska.iwi.eShopMaster.model.database.dataobjects.Product;
@@ -39,24 +41,8 @@ public class ListAllProductsAction extends ActionSupport {
 		
 		if(user != null){
 			System.out.println("list all products!");
-			String apiUrl = "http://product-service:8082/getProducts";
-			URL url = new URL(apiUrl);
-
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			conn.setRequestMethod("GET");
-
-			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			String line;
-            StringBuilder response = new StringBuilder();
-            while ((line = reader.readLine()) != null) {
-                response.append(line);
-            }
-            reader.close();
-			ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(response.toString());
-            JsonNode productsNode = jsonNode.get("products");
-			List<Product> products = objectMapper.readValue(productsNode.toString(), new TypeReference<List<Product>>() {});
-			this.products = products;
+			ProductManagerImpl productManager = new ProductManagerImpl();
+			this.products = productManager.getProducts();
 			result = "success";
 		}
 		
