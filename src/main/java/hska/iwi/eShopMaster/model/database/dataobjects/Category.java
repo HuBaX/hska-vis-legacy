@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * This class contains details about categories.
  */
@@ -30,6 +33,12 @@ public class Category implements java.io.Serializable {
 	public Category(String name, Set<Product> products) {
 		this.name = name;
 		this.products = products;
+	}
+
+	@JsonCreator
+	public Category(@JsonProperty("ID")int id, @JsonProperty("Name")String name) throws Exception{
+		this.id = id;
+		this.name = name;
 	}
 
 	@Id
