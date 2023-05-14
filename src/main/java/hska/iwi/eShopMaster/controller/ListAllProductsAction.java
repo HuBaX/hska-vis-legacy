@@ -14,8 +14,11 @@ import java.util.Map;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.type.CollectionType;
 
 public class ListAllProductsAction extends ActionSupport {
@@ -52,8 +55,7 @@ public class ListAllProductsAction extends ActionSupport {
 			ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(response.toString());
             JsonNode productsNode = jsonNode.get("products");
-			CollectionType prodcol = objectMapper.getTypeFactory().constructCollectionType(List.class, Product.class);
-			List<Product> products = objectMapper.readValue(productsNode.toString(), prodcol);
+			List<Product> products = objectMapper.readValue(productsNode.toString(), new TypeReference<List<Product>>() {});
 			this.products = products;
 			result = "success";
 		}
