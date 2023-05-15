@@ -164,12 +164,9 @@ public class ProductManagerImpl implements ProductManager {
 
 	public void deleteProductById(int id) throws Exception{
 		URL url = new URL("http://product-service:8082/delProductById?id="+id);
-		HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
-		httpCon.setDoOutput(true);
-		httpCon.setRequestProperty(
-			"Content-Type", "application/x-www-form-urlencoded" );
-		httpCon.setRequestMethod("DELETE");
-		httpCon.connect();
+		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+		connection.setRequestMethod("DELETE");
+		connection.getResponseCode();
 	}
 
 	public boolean deleteProductsByCategoryId(int categoryId) {
