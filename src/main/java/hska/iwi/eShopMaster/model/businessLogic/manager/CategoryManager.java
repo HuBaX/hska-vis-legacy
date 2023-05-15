@@ -6,17 +6,17 @@ import java.util.List;
 
 public interface CategoryManager {
 
-	public List<Category> getCategories();
+	public List<Category> getCategories() throws Exception;
 	
-	public Category getCategory(int id);
+	public Category getCategory(int id) throws Exception;
 	
-	public Category getCategoryByName(String name);
+	public Category getCategoryByName(String name) throws Exception;
 	
-	public void addCategory(String name);
+	public void addCategory(String name) throws Exception;
 	
-	public void delCategory(Category cat);
+	public void delCategory(Category cat) throws Exception;
 	
-	public void delCategoryById(int id);
+	public void delCategoryById(int id) throws Exception;
 
 	
 }

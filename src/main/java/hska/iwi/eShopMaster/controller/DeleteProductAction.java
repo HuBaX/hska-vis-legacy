@@ -2,11 +2,8 @@ package hska.iwi.eShopMaster.controller;
 
 import hska.iwi.eShopMaster.model.businessLogic.manager.ProductManager;
 import hska.iwi.eShopMaster.model.businessLogic.manager.impl.ProductManagerImpl;
-import hska.iwi.eShopMaster.model.database.dataAccessObjects.ProductDAO;
 import hska.iwi.eShopMaster.model.database.dataobjects.User;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Map;
 
 import com.opensymphony.xwork2.ActionContext;

@@ -6,19 +6,18 @@ import java.util.List;
 
 public interface ProductManager {
 
-	public List<Product> getProducts();
+	public List<Product> getProducts() throws Exception;
 
-	public Product getProductById(int id);
+	public Product getProductById(int id) throws Exception;
 
-	public Product getProductByName(String name);
+	public Product getProductByName(String name) throws Exception;
 
-	public int addProduct(String name, double price, int categoryId, String details);
+	public int addProduct(String name, double price, int categoryId, String details) throws Exception;
 
-	public List<Product> getProductsForSearchValues(String searchValue, Double searchMinPrice, Double searchMaxPrice);
+	public List<Product> getProductsForSearchValues(String searchValue, Double searchMinPrice, Double searchMaxPrice) throws Exception;
 	
-	public boolean deleteProductsByCategoryId(int categoryId);
+	public boolean deleteProductsByCategoryId(int categoryId) throws Exception;
 	
-    public void deleteProductById(int id);
+    public void deleteProductById(int id) throws Exception;
     
-	
 }

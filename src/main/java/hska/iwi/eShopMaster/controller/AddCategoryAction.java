@@ -52,7 +52,11 @@ public class AddCategoryAction extends ActionSupport {
 		}
 		// Go and get new Category list
 		CategoryManager categoryManager = new CategoryManagerImpl();
-		this.setCategories(categoryManager.getCategories());
+		try {
+			this.setCategories(categoryManager.getCategories());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public List<Category> getCategories() {

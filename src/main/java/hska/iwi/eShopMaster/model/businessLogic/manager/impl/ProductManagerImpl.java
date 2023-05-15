@@ -111,7 +111,9 @@ public class ProductManagerImpl implements ProductManager {
 		reader.close();
 		ObjectMapper objectMapper = new ObjectMapper();
 		JsonNode jsonNode = objectMapper.readTree(response.toString());
-		return objectMapper.readValue(jsonNode.toString(), new TypeReference<Product>() {});
+		JsonNode productsNode = jsonNode.get("products");
+		List<Product> products = objectMapper.readValue(productsNode.toString(), new TypeReference<List<Product>>() {});
+		return products.get(0);
 	}
 	
 	public int addProduct(String name, double price, int categoryId, String details) throws Exception {
@@ -145,7 +147,13 @@ public class ProductManagerImpl implements ProductManager {
 			OutputStream os = con.getOutputStream();
 			byte[] input = productString.getBytes("utf-8");
 			os.write(input, 0, input.length);
-
+			BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"));
+			StringBuilder res = new StringBuilder();
+			String responseLine = null;
+			while((responseLine = br.readLine()) != null){
+				res.append(responseLine.trim());
+			}
+			System.out.print(res.toString());    
 			productId = this.getProductByName(name).getId();
 			System.out.println(productId);
 		}

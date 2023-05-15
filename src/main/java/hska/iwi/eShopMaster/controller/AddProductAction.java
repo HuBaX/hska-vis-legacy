@@ -45,7 +45,11 @@ public class AddProductAction extends ActionSupport {
 	@Override
 	public void validate() {
 		CategoryManager categoryManager = new CategoryManagerImpl();
-		this.setCategories(categoryManager.getCategories());
+		try {
+			this.setCategories(categoryManager.getCategories());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		// Validate name:
 
 		if (getName() == null || getName().length() == 0) {
