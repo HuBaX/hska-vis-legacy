@@ -52,11 +52,11 @@ public class ProductManagerImpl implements ProductManager {
 			Double searchMinPrice, Double searchMaxPrice) throws Exception{	
 			URIBuilder uriBuilder = new URIBuilder("http://product-service:8082/getProductsBySearchValues");
 			if (searchDescription != null)
-			uriBuilder.addParameter("searchDescription", searchDescription);
+			uriBuilder.addParameter("details", searchDescription);
 			if (searchMinPrice != null)
-			uriBuilder.addParameter("searchMinPrice", searchMinPrice.toString());
+			uriBuilder.addParameter("minPrice", searchMinPrice.toString());
 			if (searchMaxPrice != null)
-			uriBuilder.addParameter("searchMaxPrice", searchMaxPrice.toString());
+			uriBuilder.addParameter("maxPrice", searchMaxPrice.toString());
 			URL url = uriBuilder.build().toURL();
 			
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -163,16 +163,13 @@ public class ProductManagerImpl implements ProductManager {
 	
 
 	public void deleteProductById(int id) throws Exception{
-		URL url = new URL("http://product-service:8082/delProductById");
-		HttpURLConnection con = (HttpURLConnection) url.openConnection();
-		con.setRequestMethod("POST");
-		con.setRequestProperty("Content-Type", "application/json");
-		con.setRequestProperty("Accept", "application/json");
-		con.setDoOutput(true);
-		String jsonInputString = "{\"id\":"+id+"}";
-		OutputStream os = con.getOutputStream();
-		byte[] input = jsonInputString.getBytes("utf-8");
-		os.write(input, 0, input.length);
+		URL url = new URL("http://product-service:8082/delProductById?id="+id);
+		HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
+		httpCon.setDoOutput(true);
+		httpCon.setRequestProperty(
+			"Content-Type", "application/x-www-form-urlencoded" );
+		httpCon.setRequestMethod("DELETE");
+		httpCon.connect();
 	}
 
 	public boolean deleteProductsByCategoryId(int categoryId) {
