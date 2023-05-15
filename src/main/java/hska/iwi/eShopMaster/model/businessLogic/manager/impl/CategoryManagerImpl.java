@@ -97,6 +97,8 @@ public class CategoryManagerImpl implements CategoryManager{
 		OutputStream os = con.getOutputStream();
 		byte[] input = jsonInputString.getBytes("utf-8");
 		os.write(input, 0, input.length);
+		os.flush();
+		os.close();
 		BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"));
 		StringBuilder res = new StringBuilder();
 		String responseLine = null;
@@ -111,22 +113,12 @@ public class CategoryManagerImpl implements CategoryManager{
 	}
 
 	public void delCategoryById(int id) throws Exception {
-		URL url = new URL("http://category-service:8081/delCategoryById");
-		HttpURLConnection con = (HttpURLConnection) url.openConnection();
-		con.setRequestMethod("POST");
-		con.setRequestProperty("Content-Type", "application/json");
-		con.setRequestProperty("Accept", "application/json");
-		con.setDoOutput(true);
-		String jsonInputString = "{\"id\":"+id+"}";
-		OutputStream os = con.getOutputStream();
-		byte[] input = jsonInputString.getBytes("utf-8");
-		os.write(input, 0, input.length);
-		BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"));
-		StringBuilder res = new StringBuilder();
-		String responseLine = null;
-		while((responseLine = br.readLine()) != null){
-			res.append(responseLine.trim());
-		}
-		System.out.print(res.toString());	
+		URL url = new URL("http://category-service:8081/delCategoryById?id="+id);
+		HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
+		httpCon.setDoOutput(true);
+		httpCon.setRequestProperty(
+			"Content-Type", "application/x-www-form-urlencoded" );
+		httpCon.setRequestMethod("DELETE");
+		httpCon.connect();
 	}
 }
