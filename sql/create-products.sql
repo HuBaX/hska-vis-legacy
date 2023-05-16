@@ -1,8 +1,7 @@
-CREATE DATABASE Products;
+CREATE DATABASE Products CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE Products;
 CREATE USER 'productuser'@'%' IDENTIFIED BY 'productuser';
 GRANT ALL PRIVILEGES on Products.* to 'productuser'@'%';
-
-USE Products;
 
 CREATE TABLE product (
 	id INT NOT NULL AUTO_INCREMENT,

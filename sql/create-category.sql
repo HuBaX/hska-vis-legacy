@@ -1,8 +1,9 @@
-CREATE DATABASE Categories;
+CREATE DATABASE Categories CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE Categories;
 CREATE USER 'categoryuser'@'%' IDENTIFIED BY 'categoryuser';
 GRANT ALL PRIVILEGES on Categories.* to 'categoryuser'@'%';
 
-USE Categories;
+
 
 CREATE TABLE category (
 	id INT NOT NULL AUTO_INCREMENT,

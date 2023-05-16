@@ -1,8 +1,9 @@
-CREATE DATABASE Webshop;
+CREATE DATABASE Webshop CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE Webshop;
 CREATE USER 'webshopuser'@'%' IDENTIFIED BY 'webshopuser';
 GRANT ALL ON Webshop.* to 'webshopuser'@'%';
 
-USE Webshop;
+
 
 CREATE TABLE role (
 	id INT NOT NULL AUTO_INCREMENT,

@@ -77,7 +77,7 @@ public class ProductManagerImpl implements ProductManager {
 	}
 
 	public Product getProductById(int id) throws Exception{
-		String apiUrl = "http://product-service:8082/getProductById?id="+id;
+		String apiUrl = "http://product-service:8082/getProduct?id="+id;
 		URL url = new URL(apiUrl);
 
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
