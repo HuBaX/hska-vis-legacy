@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: category-deployment
+  labels:
+    app: category
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: category
+  template:
+    metadata:
+      labels:
+        app: category
+    spec:
+      containers:
+      - name: category
+        image: category
+        ports:
+        - containerPort: 8081
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: mysql-config
+              key: category-database
+        - name: MYSQL_USER
+          valueFrom:
+            configMapKeyRef:
+              name: mysql-config
+              key: category-user
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: category-password
+        - name: MYSQL_ADDRESS
+          valueFrom:
+            configMapKeyRef:
+              name: mysql-config
+              key: mysql-address
+          
+

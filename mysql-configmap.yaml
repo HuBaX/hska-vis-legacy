@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-config
+data:
+  webshop-database: webshop
+  webshop-user: webshopuser
+
+  category-database: Categories
+  category-user: categoryuser
+
+  product-database: Products
+  product-user: productuser
+
+  mysql-address: "mysql-service:3306"

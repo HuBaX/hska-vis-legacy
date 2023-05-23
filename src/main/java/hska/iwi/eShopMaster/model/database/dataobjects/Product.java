@@ -14,6 +14,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import hska.iwi.eShopMaster.model.businessLogic.manager.impl.CategoryManagerImpl;
+
 /**
  * This class contains details about products.
  */
@@ -54,7 +56,8 @@ public class Product implements java.io.Serializable {
 		this.price = price;
 		this.details = details;
 		this.id = id;
-		this.category = getCategoryByID(category);
+		CategoryManagerImpl categoryManager = new CategoryManagerImpl();
+		this.category = categoryManager.getCategory(category);
 	}
 
 	private Category getCategoryByID(int id) throws Exception{

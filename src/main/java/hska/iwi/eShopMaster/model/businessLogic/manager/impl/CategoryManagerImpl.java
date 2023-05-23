@@ -42,8 +42,8 @@ public class CategoryManagerImpl implements CategoryManager{
 		reader.close();
 		ObjectMapper objectMapper = new ObjectMapper();
 		JsonNode jsonNode = objectMapper.readTree(response.toString());
-		JsonNode productsNode = jsonNode.get("categories");
-		List<Category> categories = objectMapper.readValue(productsNode.toString(), new TypeReference<List<Category>>() {});
+		JsonNode categoriesNode = jsonNode.get("categories");
+		List<Category> categories = objectMapper.readValue(categoriesNode.toString(), new TypeReference<List<Category>>() {});
 		return categories;
 	}
 
@@ -63,8 +63,9 @@ public class CategoryManagerImpl implements CategoryManager{
 		reader.close();
 		ObjectMapper objectMapper = new ObjectMapper();
 		JsonNode jsonNode = objectMapper.readTree(response.toString());
-		Category categories = objectMapper.readValue(jsonNode.toString(),  new TypeReference<Category>() {});
-		return categories;
+		JsonNode categoryNode = jsonNode.get("category");
+		Category category = objectMapper.readValue(categoryNode.toString(),  new TypeReference<Category>() {});
+		return category;
 	}
 
 	public Category getCategoryByName(String name) throws Exception{

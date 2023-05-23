@@ -111,7 +111,9 @@ public class ProductManagerImpl implements ProductManager {
 		reader.close();
 		ObjectMapper objectMapper = new ObjectMapper();
 		JsonNode jsonNode = objectMapper.readTree(response.toString());
+		System.out.println(response.toString());
 		JsonNode productsNode = jsonNode.get("products");
+		System.out.println(productsNode.toString());
 		List<Product> products = objectMapper.readValue(productsNode.toString(), new TypeReference<List<Product>>() {});
 		return products.get(0);
 	}

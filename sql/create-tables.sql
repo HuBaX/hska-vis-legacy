@@ -1,7 +1,8 @@
-CREATE DATABASE Webshop CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE Webshop;
+USE webshop;
+DROP USER 'webshopuser';
+FLUSH PRIVILEGES;
 CREATE USER 'webshopuser'@'%' IDENTIFIED BY 'webshopuser';
-GRANT ALL ON Webshop.* to 'webshopuser'@'%';
+GRANT ALL ON webshop.* to 'webshopuser'@'%';
 
 
 

@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: legacywebshop-deployment
+  labels:
+    app: legacywebshop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: legacywebshop
+  template:
+    metadata:
+      labels:
+        app: legacywebshop
+    spec:
+      containers:
+      - name: legacywebshop
+        image: mavogel/hska-vis-legacywebshop
+        ports:
+        - containerPort: 8888
+        imagePullPolicy: IfNotPresent
