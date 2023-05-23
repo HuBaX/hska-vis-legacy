@@ -35,6 +35,7 @@ public class CategoryManagerImpl implements CategoryManager{
 	}
 
 	public Category getCategory(int id) throws Exception{
+		System.out.println("getCategory" + id);
 		String apiUrl = "http://category-service:8081/getCategory?id="+id;
 		URL url = new URL(apiUrl);
 

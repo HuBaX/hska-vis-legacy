@@ -60,28 +60,6 @@ public class Product implements java.io.Serializable {
 		this.category = categoryManager.getCategory(category);
 	}
 
-	private Category getCategoryByID(int id) throws Exception{
-		String apiUrl = "http://category-service:8081/getCategory?id="+id;
-		URL url = new URL(apiUrl);
-
-		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-		conn.setRequestMethod("GET");
-
-		BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-		String line;
-		StringBuilder response = new StringBuilder();
-		while ((line = reader.readLine()) != null) {
-			response.append(line);
-		}
-		reader.close();
-
-		ObjectMapper objectMapper = new ObjectMapper();
-		JsonNode jsonNode = objectMapper.readTree(response.toString());
-		String categoryName = jsonNode.get("Name").asText();
-		Category categoryObject = new Category(categoryName);
-		return categoryObject;
-	}
-
 	public Product(String name, double price, Category category) {
 		this.name = name;
 		this.price = price;

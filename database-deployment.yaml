@@ -33,17 +33,17 @@ spec:
           valueFrom:
             configMapKeyRef:
               name: mysql-config
-              key: database
+              key: webshop-database
         - name: MYSQL_USER
           valueFrom:
             configMapKeyRef:
               name: mysql-config
-              key: user
+              key: webshop-user
         - name: MYSQL_PASSWORD
           valueFrom:
             secretKeyRef:
               name: mysql-secret
-              key: password
+              key: webshop-password
       volumes:
       - name: mysql-pv
         persistentVolumeClaim:

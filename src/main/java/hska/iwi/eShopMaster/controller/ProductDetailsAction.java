@@ -33,6 +33,7 @@ public class ProductDetailsAction extends ActionSupport {
 		
 		if(user != null) {
 			ProductManager productManager = new ProductManagerImpl();
+			System.out.println("ID:" + id);
 			product = productManager.getProductById(id);
 			
 			res = "success";			

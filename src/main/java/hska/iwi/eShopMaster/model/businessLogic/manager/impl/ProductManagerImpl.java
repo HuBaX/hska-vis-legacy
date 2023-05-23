@@ -53,10 +53,11 @@ public class ProductManagerImpl implements ProductManager {
 		String apiUrl = "http://product-service:8082/getProduct?id="+id;
 		URL url = new URL(apiUrl);
 		StringBuilder response = this.getResponse(url);
-
+		System.out.println("GetProductById: " + response.toString());
 		ObjectMapper objectMapper = new ObjectMapper();
 		JsonNode jsonNode = objectMapper.readTree(response.toString());
-		return objectMapper.readValue(jsonNode.toString(), new TypeReference<Product>() {});
+		JsonNode productsNode = jsonNode.get("product");
+		return objectMapper.readValue(productsNode.toString(), new TypeReference<Product>() {});
 	}
 
 	public Product getProductByName(String name) throws Exception{
@@ -86,9 +87,7 @@ public class ProductManagerImpl implements ProductManager {
 	private List<Product> buildProductList(StringBuilder response) throws Exception{
 		ObjectMapper objectMapper = new ObjectMapper();
 		JsonNode jsonNode = objectMapper.readTree(response.toString());
-		System.out.println(response.toString());
 		JsonNode productsNode = jsonNode.get("products");
-		System.out.println(productsNode.toString());
 		List<Product> products = objectMapper.readValue(productsNode.toString(), new TypeReference<List<Product>>() {});
 		return products;
 	}
