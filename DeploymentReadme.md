@@ -42,6 +42,9 @@ cd hska-vis-legacy/
 docker build -t apache -f .\docker\DockerfileApache .
 
 docker build -t mavogel/hska-vis-web-shop-db-image -f .\docker\DockerfileMySQL .
+
+docker build -t mavogel/hska-vis-legacywebshop -f .\docker\Dockerfile .
+
 ```
 
 ## deployment
