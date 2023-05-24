@@ -1,4 +1,5 @@
-# HowToDeploy
+
+# Deployment guide
 this setup aims to work with minikube based on windows.
 
 
@@ -142,3 +143,6 @@ minikube service legacy-service --url
 3. login with: 
     user: admin
     pwd: admin
+
+
+
