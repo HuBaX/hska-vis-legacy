@@ -1,53 +1,168 @@
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
-[![Travis Build Status](https://travis-ci.org/mavogel/hska-vis-legacy.svg?branch=master)](https://travis-ci.org/mavogel/hska-vis-legacy)
 
 # Distributed Information Systems Laboratory aka vis-lab
-This project is the quick setup of the legacy webshop of 
-the masters course 'Distributed Information Systems' at the University of Applied Sciences (Karlsruhe).
+This project is a fork from the [vis-lab](https://github.com/hka-iwi-vislab/hska-vis-legacy) project of the [Hochschule Karlsruhe](http://www.hs-karlsruhe.de) (University of Applied Sciences) and is used for the Distributed Information Systems Laboratory.
 
-## Table of Contents
-- [Prerequisites](#prerequisites)
-- [Usage](#usage)
-    - [Quick Start](#quick-start)
-    - [Built it on your own](#built-it-on-your-own)
-- [Database cleanup](#database-cleanup)
-- [License](#license)
+Table of Contents
+=================
 
-## <a name="prerequisites"></a>Prerequisites
-- [docker](https://docker.com)
-- with `docker-compose`
+   * [Distributed Information Systems Laboratory aka vis-lab](#distributed-information-systems-laboratory-aka-vis-lab)
+      * [Getting Started](#getting-started)
+         * [Prerequisites](#prerequisites)
+         * [Build the microservices](#build-the-microservices)
+         * [Deploy the microservices in minikube](#deploy-the-microservices-in-minikube)
+      * [Installation of istio](#installation-of-istio)
+         * [Installation of Grafana, Prometheus and kiali](#installation-of-grafana-prometheus-and-kiali)
+      * [Expose the shop](#expose-the-shop)
+      * [License](#license)
 
-## <a name="usage"></a>Usage
-You can run the images from `docker hub` which is preferred or built it on your own.
-First: Start Docker daemon and check with `docker ps`
 
-### <a name="quick-start"></a>Quick Start (docker-hub)
-- Copy the `docker-compose.yml` locally in a desired folder and run
+## Getting Started
+This is a guide how to deploy and run the project on your local machine using minikube on a windows host system. For other OS use different commands to build in minikube context.
+
+### Prerequisites
+
+- start minikube with enough ressources (8GB can work, but 16GB is recommended)
 ```bash
-$ docker-compose up -d
-# to follow the logs
-$ docker-compose logs -tf
-# to shutdown
-$ docker-compose down
+# start minikube with 16GB of ram and 4 cpus
+minikube start --memory=16384 --cpus=4
 ```
 
-### <a name="built-it-on-your-own"></a>Built it on your own
-- Run `docker-compose -f docker-compose-local.yml up -d` which will
-    - It builds the web app `war` in a staged build, packs it into a docker tomcat8 container,
-    and sets the user `tomcat` with password `admin` for the Management Console at http://localhost:8888/
-    - Initializes the MySQL Database docker container with the db user defined in `hibernate.cfg.xml`
-    - Sets up both containers and make the legacy webshop available under http://localhost:8888/EShop-1.0.0
-- Follow the logs via `docker-compose -f docker-compose-local.yml logs -tf`
-- To shutdown the containers run `docker-compose -f docker-compose-local.yml down`
-
-## <a name="database-cleanup"></a>Database Cleanup
-If you change the user and password of the MySQL database, you should run
+- clone the git repositories
 ```bash
-$ docker-compose rm -v
-$ rm -rf .data
-```
-Details can be found [here](https://github.com/docker-library/mysql/issues/51)
+# base git with mysql and legacy webshop
+git clone https://github.com/HuBaX/hska-vis-legacy.git
 
-## <a name="license"></a>License
-Copyright (c) 2017-2018 Manuel Vogel
-Source code is open source and released under the MIT license.
+# category microservice git
+git clone https://github.com/HuBaX/CategoryService.git
+
+# product microservice git
+git clone https://github.com/HuBaX/ProductService.git
+```
+
+### Build the microservices
+
+- Build the product service
+```bash
+cd ProductService/
+& minikube -p minikube docker-env --shell powershell | Invoke-Expression
+docker build -t product .
+cd ..
+```
+
+- Build the category service
+```bash
+cd CategoryService/
+& minikube -p minikube docker-env --shell powershell | Invoke-Expression
+docker build -t category .
+cd ..
+```
+- Build apache, mysql and the legacy webshop
+```bash
+cd hska-vis-legacy/
+& minikube -p minikube docker-env --shell powershell | Invoke-Expression
+docker build -t apache -f .\docker\DockerfileApache .
+
+docker build -t mavogel/hska-vis-web-shop-db-image -f .\docker\DockerfileMySQL .
+
+docker build -t mavogel/hska-vis-legacywebshop -f .\docker\Dockerfile .
+```
+### Deploy the microservices in minikube
+
+0. Go in the hska-vis-legacy folder
+```bash
+cd hska-vis-legacy/
+```
+
+1. Run the deployment yamls from the yaml-folder in the minikube cluster.
+```bash
+kubectl apply -f ./yaml/mysql/
+kubectl apply -f ./yaml/deployment/
+kubectl apply -f ./yaml/services/
+```
+2. Check if everything is up and running.
+
+```bash
+kubectl get pods
+```
+
+## Installation of istio
+0. install istioctl(in admin powershell!):
+```bash
+choco install istioctl
+```
+If no choco is available, see alternative installations: https://istio.io/latest/docs/setup/getting-started/
+
+1. install istio
+```bash
+istioctl install
+```
+
+2. configure Envoy Proxy injection
+create labe fro istio for default namespace
+```bash
+kubectl get ns default --show-labels
+kubectl label namespace default istio-injection=enabled
+kubectl get ns default --show-labels
+```
+(delete label with:  `kubectl label namespace default istio-injection-`)
+
+3. delete all deployments and redeploy
+
+```bash
+# delete all
+kubectl delete -f ./yaml/deployment/
+
+# redeploy all pods
+kubectl apply -f ./yaml/deployment/
+```
+
+### Installation of Grafana, Prometheus and kiali
+
+0. copy the yaml files from istio addon folder to yaml folder istio-addons
+(get files from latest release: https://github.com/istio/istio/releases)
+
+1. apply the yaml files
+```bash
+kubectl apply -f ./yaml/istio-addons/
+```
+
+2. portforward kiali service
+
+get service port from kiali: `kubectl get svc -A`
+
+```bash
+kubectl port-forward svc/kiali -n istio-system 20001
+```
+
+3. visit Kiali frontend at localhost:20001
+
+4. portfoward Grafana service
+
+get service port from kiali: `kubectl get svc -A`
+
+```bash
+kubectl port-forward svc/grafana -n istio-system 3000
+```
+
+5. visit Grafana frontend at localhost:3000
+
+## Expose the shop
+
+1. minikube service
+
+```bash
+minikube service legacy-service --url
+```
+
+2. go to url and port and add /EShop-1.0.0 to it
+
+3. login with: 
+```yaml
+user: admin
+pwd: admin
+```
+
+ 
+ ## License
+ Source code is open source and released under the MIT license.
