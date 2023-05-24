@@ -62,11 +62,12 @@ kubectl get pods
 
 ## installation of istio
 see: (https://youtu.be/voAyroDb6xk)
-1. install istioctl:
+1. install istioctl(in admin powershell!):
 ```bash
 choco install istioctl
 ```
 alternative see: https://istio.io/latest/docs/setup/getting-started/
+
 2. install istio
 ```bash
 istioctl install
@@ -78,13 +79,16 @@ kubectl get ns default --show-labels
 kubectl label namespace default istio-injection=enabled
 kubectl get ns default --show-labels
 ```
+(delete label with:  `kubectl label namespace default istio-injection-`)
+
 4. delete all deployments and redeploy
 
 ```bash
 # delete all
-kubectl delete -f ./yaml/mysql/
-kubectl delete -f ./yaml/deployment/
 kubectl delete -f ./yaml/services/
+kubectl delete -f ./yaml/deployment/
+kubectl delete -f ./yaml/mysql/
+
 
 # redeploy all pods
 kubectl apply -f ./yaml/mysql/
@@ -120,3 +124,18 @@ kubectl port-forward svc/grafana -n istio-system 3000
 ```
 
 5. visit Grafana frontend at localhost:3000
+
+
+## Make shop visible
+
+1. minikube service
+
+```bash
+minikube service legacy-service --url
+```
+
+2. go to url and port and add /EShop-1.0.0 to it
+
+3. login with: 
+    user: admin
+    pwd: admin
