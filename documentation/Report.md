@@ -104,8 +104,48 @@ Wenn man sich das Strangler pattern als Vorgehen aussucht, wäre es am sinnvolls
 
 
 
+## Aufgabe 2
+Architekturskizze des Webshops in Docker-Containern. 
 
-## Augabe 2 
+![Architekturskizze](pictures/ArchitekturDocker.png)
+
+
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Augabe 3 
 
 In diesem Abschnitt finden Sie Screenshots zu den verschiedenen Frontends und der Arbeit des Load-Balancers.
 
