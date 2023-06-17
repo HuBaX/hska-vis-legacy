@@ -25,16 +25,21 @@ public class ProductManagerImpl implements ProductManager {
 	}
 
 	public List<Product> getProducts() throws Exception{
+		long startTime = System.currentTimeMillis();
 		String apiUrl = "http://product-service:8082/getProducts";
 		URL url = new URL(apiUrl);
 		StringBuilder response = this.getResponse(url);
 
 		List<Product> products = this.buildProductList(response);
+		long endTime = System.currentTimeMillis();
+		long responseTime = endTime - startTime;
+		System.out.printf("Response Time for getProducts: %d %n", responseTime);
 		return products;
 	}
 	
 	public List<Product> getProductsForSearchValues(String searchDescription,
 			Double searchMinPrice, Double searchMaxPrice) throws Exception{	
+			long startTime = System.currentTimeMillis();
 			URIBuilder uriBuilder = new URIBuilder("http://product-service:8082/getProductsBySearchValues");
 			if (searchDescription != null)
 			uriBuilder.addParameter("details", searchDescription);
@@ -46,10 +51,14 @@ public class ProductManagerImpl implements ProductManager {
 			StringBuilder response = this.getResponse(url);
 			
 			List<Product> products = this.buildProductList(response);
+			long endTime = System.currentTimeMillis();
+			long responseTime = endTime - startTime;
+			System.out.printf("Response Time for getProductsForSearchValues: %d %n", responseTime);
 			return products;
 	}
 
 	public Product getProductById(int id) throws Exception{
+		long startTime = System.currentTimeMillis();
 		String apiUrl = "http://product-service:8082/getProduct?id="+id;
 		URL url = new URL(apiUrl);
 		StringBuilder response = this.getResponse(url);
@@ -57,15 +66,22 @@ public class ProductManagerImpl implements ProductManager {
 		ObjectMapper objectMapper = new ObjectMapper();
 		JsonNode jsonNode = objectMapper.readTree(response.toString());
 		JsonNode productsNode = jsonNode.get("product");
+		long endTime = System.currentTimeMillis();
+		long responseTime = endTime - startTime;
+		System.out.printf("Response Time for getProductById: %d %n", responseTime);
 		return objectMapper.readValue(productsNode.toString(), new TypeReference<Product>() {});
 	}
 
 	public Product getProductByName(String name) throws Exception{
+		long startTime = System.currentTimeMillis();
 		String apiUrl = "http://product-service:8082/getProductByName?name="+name;
 		URL url = new URL(apiUrl);
 		StringBuilder response = this.getResponse(url);
 
 		List<Product> products = this.buildProductList(response);
+		long endTime = System.currentTimeMillis();
+		long responseTime = endTime - startTime;
+		System.out.printf("Response Time for getProductByName: %d %n", responseTime);
 		return products.get(0);
 	}
 
@@ -93,6 +109,7 @@ public class ProductManagerImpl implements ProductManager {
 	}
 	
 	public int addProduct(String name, double price, int categoryId, String details) throws Exception {
+		long startTime = System.currentTimeMillis();
 		int productId = -1;
 		
 		CategoryManager categoryManager = new CategoryManagerImpl();
@@ -125,16 +142,22 @@ public class ProductManagerImpl implements ProductManager {
 			}  
 			productId = this.getProductByName(name).getId();
 		}
-			 
+		long endTime = System.currentTimeMillis();
+		long responseTime = endTime - startTime;
+		System.out.printf("Response Time for addProduct: %d %n", responseTime);	 
 		return productId;
 	}
 	
 
 	public void deleteProductById(int id) throws Exception{
+		long startTime = System.currentTimeMillis();
 		URL url = new URL("http://product-service:8082/delProductById?id="+id);
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestMethod("DELETE");
 		connection.getResponseCode();
+		long endTime = System.currentTimeMillis();
+		long responseTime = endTime - startTime;
+		System.out.printf("Response Time for deleteProductById: %d %n", responseTime);
 	}
 
 	public boolean deleteProductsByCategoryId(int categoryId) {
