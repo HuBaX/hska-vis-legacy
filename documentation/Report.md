@@ -104,8 +104,48 @@ Wenn man sich das Strangler pattern als Vorgehen aussucht, wäre es am sinnvolls
 
 
 
+## Aufgabe 2
+Architekturskizze des Webshops in Docker-Containern. 
 
-## Augabe 2 
+![Architekturskizze](pictures/ArchitekturDocker.png)
+
+
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Augabe 3 
 
 In diesem Abschnitt finden Sie Screenshots zu den verschiedenen Frontends und der Arbeit des Load-Balancers.
 
@@ -143,3 +183,29 @@ Alle Hostnamen sind unterschiedlich! -> Der Load-Balancer funktioniert wie erwar
     ![grafanaDashboard](pictures/Grafana-Dashboard.png)
     
 ---
+
+## Aufgabe 4
+
+Performancetest Ergebnisse der Responsetime der verschiedenen Requests.
+
+![PErformance-Test Ergebnisse mit inmplementiertem Timer - 2.](pictures/performance-2.png)
+
+![PErformance-Test Ergebnisse mit inmplementiertem Timer - 1.](pictures/performance-1.png)
+
+### Avarage Response-Time
+
+| Action    | Called Action | Avg. Response Time |
+| ---       | ---               | ---               |
+| open add-Product Tab | getCategories() |6ms |
+| add new product | addProduct() | 35ms |
+| list all products | getProducts() | 45ms |
+| edit categories | getCategories() | 5ms |
+| add new category | addCategory() | 8ms |
+| delete category | delCategoryById() | 14ms |
+| delete product | deleteProductById() | 8ms |
+| search product | getProductForSearchValues() | 13ms |
+
+
+
+
+
