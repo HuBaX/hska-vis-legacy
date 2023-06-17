@@ -192,3 +192,20 @@ Performancetest Ergebnisse der Responsetime der verschiedenen Requests.
 
 ![PErformance-Test Ergebnisse mit inmplementiertem Timer - 1.](pictures/performance-1.png)
 
+### Avarage Response-Time
+
+| Action    | Called Action | Avg. Response Time |
+| ---       | ---               | ---               |
+| open add-Product Tab | getCategories() |6ms |
+| add new product | addProduct() | 35ms |
+| list all products | getProducts() | 45ms |
+| edit categories | getCategories() | 5ms |
+| add new category | addCategory() | 8ms |
+| delete categorie | delCategoryById() | 14ms |
+| delete product | deleteProductById() | 8ms |
+| search product | getProductForSearchValues() | 13ms |
+
+
+
+
+
