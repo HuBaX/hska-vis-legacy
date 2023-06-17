@@ -183,3 +183,12 @@ Alle Hostnamen sind unterschiedlich! -> Der Load-Balancer funktioniert wie erwar
     ![grafanaDashboard](pictures/Grafana-Dashboard.png)
     
 ---
+
+## Aufgabe 4
+
+Performancetest Ergebnisse der Responsetime der verschiedenen Requests.
+
+![PErformance-Test Ergebnisse mit inmplementiertem Timer - 2.](pictures/performance-2.png)
+
+![PErformance-Test Ergebnisse mit inmplementiertem Timer - 1.](pictures/performance-1.png)
+
