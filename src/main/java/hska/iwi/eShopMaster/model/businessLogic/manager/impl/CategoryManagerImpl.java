@@ -22,7 +22,10 @@ public class CategoryManagerImpl implements CategoryManager{
 	public CategoryManagerImpl() {
 	}
 
-	public List<Category> getCategories() throws Exception{
+	public List<Category> getCategories() throws Exception {
+		// Start the timer
+		long startTime = System.currentTimeMillis();
+
 		String apiUrl = "http://category-service:8081/getCategories";
 		URL url = new URL(apiUrl);
 		StringBuilder response = this.getResponse(url);
@@ -31,11 +34,15 @@ public class CategoryManagerImpl implements CategoryManager{
 		JsonNode jsonNode = objectMapper.readTree(response.toString());
 		JsonNode categoriesNode = jsonNode.get("categories");
 		List<Category> categories = objectMapper.readValue(categoriesNode.toString(), new TypeReference<List<Category>>() {});
+		// Calculate the response time
+		long endTime = System.currentTimeMillis();
+		long responseTime = endTime - startTime;
+		System.out.printf("Response Time for getCategories: %d %n", responseTime);
 		return categories;
 	}
 
 	public Category getCategory(int id) throws Exception{
-		System.out.println("getCategory" + id);
+		long startTime = System.currentTimeMillis();
 		String apiUrl = "http://category-service:8081/getCategory?id="+id;
 		URL url = new URL(apiUrl);
 
@@ -53,15 +60,22 @@ public class CategoryManagerImpl implements CategoryManager{
 		JsonNode jsonNode = objectMapper.readTree(response.toString());
 		JsonNode categoryNode = jsonNode.get("category");
 		Category category = objectMapper.readValue(categoryNode.toString(),  new TypeReference<Category>() {});
+		long endTime = System.currentTimeMillis();
+		long responseTime = endTime - startTime;
+		System.out.printf("Response Time for getCategory: %d %n", responseTime);
 		return category;
 	}
 
 	public Category getCategoryByName(String name) throws Exception{
+		long startTime = System.currentTimeMillis();
 		String apiUrl = "http://category-service:8081/getCategory?name="+name;
 		URL url = new URL(apiUrl);
 		StringBuilder response = this.getResponse(url);
 		
 		Category category = this.buildCategory(response);
+		long endTime = System.currentTimeMillis();
+		long responseTime = endTime - startTime;
+		System.out.printf("Response Time for getCategoryByName: %d %n", responseTime);
 		return category;
 	}
 
@@ -88,6 +102,7 @@ public class CategoryManagerImpl implements CategoryManager{
 	}
 
 	public void addCategory(String name) throws Exception{
+		long startTime = System.currentTimeMillis();
 		URL url = new URL("http://category-service:8081/addCategory");
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		con.setRequestMethod("POST");
@@ -106,16 +121,27 @@ public class CategoryManagerImpl implements CategoryManager{
 		while((responseLine = br.readLine()) != null){
 			res.append(responseLine.trim());
 		}
+		long endTime = System.currentTimeMillis();
+		long responseTime = endTime - startTime;
+		System.out.printf("Response Time for addCategory: %d %n", responseTime);
 	}
 
 	public void delCategory(Category cat) throws Exception{
+		long startTime = System.currentTimeMillis();
 		this.delCategoryById(cat.getId());
+		long endTime = System.currentTimeMillis();
+		long responseTime = endTime - startTime;
+		System.out.printf("Response Time for delCategory: %d %n", responseTime);
 	}
 
 	public void delCategoryById(int id) throws Exception {
+		long startTime = System.currentTimeMillis();
 		URL url = new URL("http://category-service:8081/delCategoryById?id="+id);
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestMethod("DELETE");
 		connection.getResponseCode();
+		long endTime = System.currentTimeMillis();
+		long responseTime = endTime - startTime;
+		System.out.printf("Response Time for delCategoryById: %d %n", responseTime);
 	}
 }
