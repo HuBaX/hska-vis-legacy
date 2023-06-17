@@ -201,7 +201,7 @@ Performancetest Ergebnisse der Responsetime der verschiedenen Requests.
 | list all products | getProducts() | 45ms |
 | edit categories | getCategories() | 5ms |
 | add new category | addCategory() | 8ms |
-| delete categorie | delCategoryById() | 14ms |
+| delete category | delCategoryById() | 14ms |
 | delete product | deleteProductById() | 8ms |
 | search product | getProductForSearchValues() | 13ms |
 
