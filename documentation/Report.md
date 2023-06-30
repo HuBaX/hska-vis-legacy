@@ -2,6 +2,11 @@
 
 `Gruppe(IZ-Kürzel): krse1019, krse1020, rufl1020, wigo1011`
 
+GitHub Repos:
+-   Legacy-Server: https://github.com/HuBaX/hska-vis-legacy
+-   Product-Service: https://github.com/HuBaX/ProductService
+-   Category-Service: https://github.com/HuBaX/CategoryService
+
 ## Aufgabe 1
 ### 1. Aufgabe
 
